@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>SPRING_MVC</title>
 </head>
 <body bgcolor="pink">
 	<h1>Hello This is my Home Page...................</h1>
