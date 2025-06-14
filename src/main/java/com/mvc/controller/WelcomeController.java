@@ -1,18 +1,15 @@
 package com.mvc.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-//@RequestMapping("/v1")
 public class WelcomeController {
 
 	@GetMapping(value = "/")
@@ -28,41 +25,35 @@ public class WelcomeController {
 		return "Hello! Mr. " + name + " How are you............This is V1";
 	}
 
-	@GetMapping("/path/{id}")
-	@ResponseBody
-	public String pathVar(@PathVariable("id") Long id) {
-
-		System.out.println("WelcomeController.pathVar()");
-
-		return "Hello! Mr. Your id is: " + id + " How are you............";
+	@GetMapping("sign-up")
+	public String form() {
+		System.out.println("WelcomeController.form()");
+		
+		return "form";
 	}
-
-	@GetMapping("/cookie")
-	@ResponseBody
-	public String cookie(@CookieValue("JSESSIONID") String cookieVal) {
-
-		System.out.println("WelcomeController.cookieVal()");
-
-		return "Hello! Your JSESSIONID is: " + cookieVal;
+	
+	
+	@PostMapping("/submitForm")
+	public String signUp(@RequestParam(name = "username") String name, @RequestParam(name = "email")String email,Model model) {
+		System.out.println("Hello "+name+" Welcome............");
+		model.addAttribute("username", name);
+		model.addAttribute("email", email);
+		
+		return "result";
 	}
+	
+	
+	@PostMapping("/submitForm-with-servlet")
+	public String servletForm(HttpServletRequest req,Model model) {
+		
+		String name = req.getParameter("username");
+		String email = req.getParameter("email");
+		System.out.println("Hello "+name+" Welcome............this is servlet");
 
-	@GetMapping("/secondCookie")
-	@ResponseBody
-	public String secondCookie(@CookieValue("NewCookie") String cookieVal) {
-
-		System.out.println("WelcomeController.cookieVal()");
-
-		return "Hello! Your cookieValue is: " + cookieVal;
-	}
-
-	@GetMapping("/setCookie")
-	public String setCookie(HttpServletResponse response) {
-
-		System.out.println("WelcomeController.setCookie()");
-		Cookie cookie = new Cookie("NewCookie", "FirstCookieObj");
-		cookie.setMaxAge(30);
-		response.addCookie(cookie);
-		return "redirect:/secondCookie";
+		model.addAttribute("username", name);
+		model.addAttribute("email", email);
+		
+		return "result";
 	}
 
 }
