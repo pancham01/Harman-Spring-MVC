@@ -12,8 +12,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
-//@RequestMapping("/v1")
-public class WelcomeController {
+@RequestMapping("/electronics")
+public class WelcomeController2 {
 
 	@GetMapping(value = "/")
 	public String welcome() {
@@ -25,7 +25,7 @@ public class WelcomeController {
 	@ResponseBody
 	public String requestParam(@RequestParam(name = "myname", defaultValue = "Guest") String name) {
 		System.out.println("WelcomeController.requestParam()");
-		return "Hello! Mr. " + name + " How are you............This is V1";
+		return "Hello! Mr. " + name + " How are you............";
 	}
 
 	@GetMapping("/path/{id}")
