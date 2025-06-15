@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Result</title>
+<title>Result</title>
 </head>
 <body>
-    <p>Username: ${username}</p>
-    <p>Email: ${email}</p>
+	<p>Username: ${user.userName}</p>
+	<p>Email: ${user.email}</p>
+	<p>ID: ${user.id}</p>
 </body>
 </html>

@@ -3,11 +3,11 @@ package com.mvc.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.HttpServletRequest;
+import com.mvc.model.User;
 
 @Controller
 public class WelcomeController {
@@ -18,41 +18,34 @@ public class WelcomeController {
 		return "home";
 	}
 
-	@GetMapping("/welcome")
-	@ResponseBody
-	public String requestParam(@RequestParam(name = "myname", defaultValue = "Guest") String name) {
-		System.out.println("WelcomeController.requestParam()");
-		return "Hello! Mr. " + name + " How are you............This is V1";
-	}
-
 	@GetMapping("sign-up")
 	public String form() {
 		System.out.println("WelcomeController.form()");
-		
+
 		return "form";
 	}
-	
-	
+
 	@PostMapping("/submitForm")
-	public String signUp(@RequestParam(name = "username") String name, @RequestParam(name = "email")String email,Model model) {
-		System.out.println("Hello "+name+" Welcome............");
-		model.addAttribute("username", name);
-		model.addAttribute("email", email);
+	public String signUp(@RequestParam(name = "userName") String name, @RequestParam(name = "email") String email,
+			Model model) {
+
+		User u = new User();
+		u.setId(2);
+		u.setUserName(name);
+		u.setEmail(email);
+		
+		model.addAttribute("user", u);
+
+		System.out.println("WelcomeController.signUp()");
 		
 		return "result";
 	}
-	
-	
-	@PostMapping("/submitForm-with-servlet")
-	public String servletForm(HttpServletRequest req,Model model) {
-		
-		String name = req.getParameter("username");
-		String email = req.getParameter("email");
-		System.out.println("Hello "+name+" Welcome............this is servlet");
 
-		model.addAttribute("username", name);
-		model.addAttribute("email", email);
-		
+	@PostMapping("/submitForm")
+	public String signUpWithModelAttribute(@ModelAttribute User user, Model model) {
+		System.out.println("Hello " + " Welcome............");
+		user.setId(1);
+		model.addAttribute("user", user);
 		return "result";
 	}
 
